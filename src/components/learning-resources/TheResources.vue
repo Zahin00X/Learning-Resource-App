@@ -1,7 +1,7 @@
 <template>
     <base-card>
-        <base-button @click="setSelectedTab('stored-resources')" :mode="storeResButtonMode">Stored Resource</base-button>
-        <base-button @click="setSelectedTab('add-resource')" :mode="addResButtonMode">Add Resource</base-button>
+        <base-button @click="setTabStoredResources" :mode="storeResButtonMode">Stored Resource</base-button>
+        <base-button @click="setTabAddResources" :mode="addResButtonMode">Add Resource</base-button>
     </base-card>
     <keep-alive>
         <component :is="selectedTab" :selectedTab="selectedTab"></component>
@@ -11,6 +11,10 @@
 <script>
     import AddResource from './AddResource.vue';
     import StoredResources from './StoredResources.vue';
+    import { mapActions } from 'vuex';
+    import { mapGetters } from 'vuex';
+    
+    
     export default{
     components: {
         'stored-resources': StoredResources,
@@ -27,8 +31,8 @@
     data()
     {
         return {
-        selectedTab : 'stored-resources',
-        storedResources: [
+      //  selectedTab : 'stored-resources',
+       /* storedResources: [
         {
           id: 'official-guide',
           title: 'Official Guide',
@@ -40,24 +44,24 @@
           title: 'Google',
           description: 'Learn to google..',
           link: 'https://google.org',
-        },
-      ]
+        }, 
+      ] */
      }
     },
     
     methods: {
-        setSelectedTab(tab)
-        {
-            this.selectedTab = tab;
-           /* if(this.selectedTab == 'add-resource')
-            {
-                this.isSelected = true;
-            }
-            else if(this.selectedTab == 'stored-resources')
-            {
-                this.isSelected = false;
-            } */
-        },
+        // setSelectedTab(tab)
+        // {
+        //     this.selectedTab = tab;
+        //    /* if(this.selectedTab == 'add-resource')
+        //     {
+        //         this.isSelected = true;
+        //     }
+        //     else if(this.selectedTab == 'stored-resources')
+        //     {
+        //         this.isSelected = false;
+        //     } */
+        // },
         addResource(title,description,url)
         {
             const newResource = {
@@ -68,13 +72,17 @@
                 link:url
             };
             this.storedResources.unshift(newResource);
-            this.selectedTab = 'stored-resources';
+           
+            this.setTabStoredResources();
+          //  this.$store.state.selectedTab = 'stored-resources';
         },
         removeResource(resId)
         {
-            const resIndex = this.storedResources.findIndex(res => res.id === resId);
+            const resIndex = this.storedResources.findIndex(res => res._id === resId);
             this.storedResources.splice(resIndex, 1);
-        }
+        },
+
+        ...mapActions(['setTabStoredResources','setTabAddResources','setInitResources'])
     },
     computed: {
         storeResButtonMode()
@@ -84,8 +92,20 @@
         addResButtonMode()
         {
             return this.selectedTab === "add-resource" ? null : 'flat';
-        }
+        },
+        selectedTab()
+        {
+            return this.$store.state.selectedTab;
+        },
+        ...mapGetters(['storedResources'])
+
     },
+    mounted()
+    {
+        this.axios.get('http://localhost:8081/users/').then(response => ( this.setInitResources({value: response.data}) ));
+        console.log(this.storedResources);
+    } 
+    
     
     }
 </script>

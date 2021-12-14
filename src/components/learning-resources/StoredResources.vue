@@ -2,8 +2,8 @@
   <ul>
     <learning-resource
       v-for="res in resources"
-      :id="res.id"
-      :key="res.id"
+      :id="res._id"
+      :key="res._id"
       :title="res.title"
       :link="res.link"
       :description="res.description"
@@ -13,13 +13,27 @@
 
 <script>
 import LearningResource from './LearningResource.vue';
+//import { mapActions } from 'vuex';
+//import { mapGetters } from 'vuex';
 
 export default{
     
     components: {
     'learning-resource': LearningResource,
   },
-    inject : ['resources']
+  methods: {
+  //  ...mapActions(['setInitResources'])
+  },
+  computed:{
+  //  ...mapGetters(['storedResources'])
+  },
+  inject : ['resources'],
+ /* mounted()
+  {
+    
+    this.axios.get('http://localhost:8081/users/').then(response => ( this.setInitResources({value: response.data}) ));
+    
+  } */ 
 }
 </script>
 

@@ -39,8 +39,8 @@ export default {
   data()
   {
       return {
-          inputIsInvalid : false,
-          flag: this.selectedTab
+      //    inputIsInvalid : false,
+          
 
       };
   },
@@ -68,6 +68,14 @@ export default {
        this.inputIsInvalid = false;
     },
     
+  },
+  computed: {
+
+    inputIsInvalid()
+    {
+      return this.$store.state.inputIsInvalid;
+    }
+
   },
 
   mounted()
