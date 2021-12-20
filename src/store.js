@@ -36,10 +36,14 @@ const store = createStore({
         },
         removeResource(state,payload)
         {
-            const resIndex = state.storedResources.findIndex(res => res._id === payload.value);
-            console.log(resIndex);
+           // const resIndex = state.storedResources.findIndex(res => res._id === payload.value);
+            console.log(payload.value);
             console.log(state.storedResources);
-            state.storedResources.splice(resIndex, 1);
+            // state.storedResources.splice(resIndex, 1);
+            axios.delete(`http://localhost:8081/users/${ payload.value }`).then( response => (console.log(response.data)))
+            location.reload();
+            
+            
         },
         initResources(state,payload)
         {
