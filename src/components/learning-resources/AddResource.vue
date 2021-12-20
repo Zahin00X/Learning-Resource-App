@@ -35,6 +35,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
+
 export default {
   data()
   {
@@ -60,7 +63,7 @@ export default {
             this.inputIsInvalid = true;
             return;
         }
-        this.addResource(enteredTitle, enteredDescription, enteredLink);
+        this.addResource({ title:enteredTitle, description:enteredDescription, url: enteredLink });
         
     },
     closeDialog()
@@ -71,10 +74,7 @@ export default {
   },
   computed: {
 
-    inputIsInvalid()
-    {
-      return this.$store.state.inputIsInvalid;
-    }
+    ...mapGetters(['inputIsInvalid'])
 
   },
 

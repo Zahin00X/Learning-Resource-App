@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import createPersistedState from "vuex-persistedstate";
 
 const store = createStore({
 
@@ -7,9 +8,12 @@ const store = createStore({
         return{
             selectedTab : 'stored-resources',
             inputIsInvalid : false,
-            storedResources: null,
+            storedResources: [],
         }
     },
+    plugins: [createPersistedState({
+        paths: ['storedResources']
+    })],
     mutations: {
         setSelectedTab(state,payload)
         {
@@ -35,7 +39,7 @@ const store = createStore({
         initResources(state,payload)
         {
             state.storedResources = payload.value;
-            console.log(state.storedResources);
+           // console.log(state.storedResources);
         }
     },
     actions: {
@@ -50,13 +54,22 @@ const store = createStore({
         setInitResources(context, payload)
         {
             context.commit('initResources', payload );
+        },
+        setAddResource(context, payload)
+        {
+            context.commit('addResource', payload );
         }
+        
     },
     getters: {
 
     storedResources(state)
     {
         return state.storedResources;
+    },
+    inputIsInvalid(state)
+    {
+        return state.inputIsInvalid;
     }
         
 

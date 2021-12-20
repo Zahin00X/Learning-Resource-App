@@ -7,7 +7,7 @@
             </header>
             <p>{{ description }}</p>
             <nav>
-            <a :href="link">View Resources</a>    
+            <a :href="url">View Resources</a>    
             </nav>
         </base-card>
     </li>
@@ -26,7 +26,7 @@ export default {
             type: String,
             required : true
         },
-        link : {
+        url : {
             type :String,
             required : true
         },

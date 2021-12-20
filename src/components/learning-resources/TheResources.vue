@@ -4,7 +4,7 @@
         <base-button @click="setTabAddResources" :mode="addResButtonMode">Add Resource</base-button>
     </base-card>
     <keep-alive>
-        <component :is="selectedTab" :selectedTab="selectedTab"></component>
+        <component  :is="selectedTab" :selectedTab="selectedTab"></component>
     </keep-alive>
 </template>
 
@@ -15,15 +15,16 @@
     import { mapGetters } from 'vuex';
     
     
+    
     export default{
     components: {
         'stored-resources': StoredResources,
-        'add-resource' : AddResource
+        'add-resource': AddResource
     },
     provide(){
         return {
             resources : this.storedResources,
-            addResource : this.addResource,
+            addResource : this.setAddResource,
             deleteResource : this.removeResource,
             
         }
@@ -62,7 +63,7 @@
         //         this.isSelected = false;
         //     } */
         // },
-        addResource(title,description,url)
+     /*   addResource(title,description,url)
         {
             const newResource = {
                 
@@ -75,14 +76,14 @@
            
             this.setTabStoredResources();
           //  this.$store.state.selectedTab = 'stored-resources';
-        },
+        },  */
         removeResource(resId)
         {
             const resIndex = this.storedResources.findIndex(res => res._id === resId);
             this.storedResources.splice(resIndex, 1);
         },
 
-        ...mapActions(['setTabStoredResources','setTabAddResources','setInitResources'])
+        ...mapActions(['setTabStoredResources','setTabAddResources','setInitResources','setAddResource'])
     },
     computed: {
         storeResButtonMode()
@@ -100,12 +101,26 @@
         ...mapGetters(['storedResources'])
 
     },
+watch: {
+    storedResources(newResources,oldResources )
+    {
+        if(newResources !== oldResources)
+        {
+        this.$forceUpdate();
+        console.log(this.storedResources);
+        }
+    } 
+},
     mounted()
     {
         this.axios.get('http://localhost:8081/users/').then(response => ( this.setInitResources({value: response.data}) ));
         console.log(this.storedResources);
-    } 
-    
-    
-    }
+    },
+    updated()
+    {
+        this.axios.get('http://localhost:8081/users/').then(response => ( this.setInitResources({value: response.data}) ));
+        console.log(this.storedResources);
+    }  
+}
+
 </script>

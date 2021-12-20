@@ -5,7 +5,7 @@
       :id="res._id"
       :key="res._id"
       :title="res.title"
-      :link="res.link"
+      :url="res.url"
       :description="res.description"
     ></learning-resource>
   </ul>    
