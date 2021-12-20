@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { createStore } from 'vuex';
 import createPersistedState from "vuex-persistedstate";
 
@@ -23,25 +24,35 @@ const store = createStore({
         {
             const newResource = {
                 
-                id: new Date().toISOString(),
                 title: payload.title,
                 description : payload.description,
-                link: payload.url
+                url: payload.url
             };
+           
+           
+            axios.post('http://localhost:8081/users/add', newResource).then( response => (console.log(response.data)))
             state.storedResources.unshift(newResource);
             state.selectedTab = 'stored-resources';
         },
-        removeResource(state,resId)
+        removeResource(state,payload)
         {
-            const resIndex = this.storedResources.findIndex(res => res.id === resId);
+            const resIndex = state.storedResources.findIndex(res => res._id === payload.value);
+            console.log(resIndex);
+            console.log(state.storedResources);
             state.storedResources.splice(resIndex, 1);
         },
         initResources(state,payload)
         {
             state.storedResources = payload.value;
            // console.log(state.storedResources);
+        },
+        setInputIsInvalid(state, payload)
+        {
+            state.inputIsInvalid = payload.value;
         }
+
     },
+
     actions: {
         setTabStoredResources(context)
         {
@@ -58,6 +69,14 @@ const store = createStore({
         setAddResource(context, payload)
         {
             context.commit('addResource', payload );
+        },
+        commitInputIsInvalid(context, payload)
+        {
+            context.commit('setInputIsInvalid', payload );
+        },
+        setRemoveResource(context, payload)
+        {
+            context.commit('removeResource', payload);
         }
         
     },

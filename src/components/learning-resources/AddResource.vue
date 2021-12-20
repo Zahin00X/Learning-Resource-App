@@ -36,17 +36,18 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 
 export default {
-  data()
+ /* data()
   {
       return {
-      //    inputIsInvalid : false,
+         inputIsInvalid : false,
           
 
       };
-  },
+  }, */
   props: ['selectedTab'],
   inject: ['addResource'],
   methods: {
@@ -54,13 +55,13 @@ export default {
       const enteredTitle = this.$refs.titleInput.value;
       const enteredDescription = this.$refs.descInput.value;
       const enteredLink = this.$refs.linkInput.value;
-      if (
+      if(
         enteredTitle.trim() === '' ||
         enteredDescription.trim() === '' ||
         enteredLink.trim() === ''
         )
         {
-            this.inputIsInvalid = true;
+            this.commitInputIsInvalid({ value: true});
             return;
         }
         this.addResource({ title:enteredTitle, description:enteredDescription, url: enteredLink });
@@ -68,8 +69,9 @@ export default {
     },
     closeDialog()
     {
-       this.inputIsInvalid = false;
+       this.commitInputIsInvalid({ value: false });
     },
+    ...mapActions(['commitInputIsInvalid','setAddResource'])
     
   },
   computed: {

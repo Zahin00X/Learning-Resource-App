@@ -25,7 +25,7 @@
         return {
             resources : this.storedResources,
             addResource : this.setAddResource,
-            deleteResource : this.removeResource,
+            deleteResource : this.setRemoveResource,
             
         }
     },
@@ -77,13 +77,12 @@
             this.setTabStoredResources();
           //  this.$store.state.selectedTab = 'stored-resources';
         },  */
-        removeResource(resId)
+       /* removeResource(resId)
         {
             const resIndex = this.storedResources.findIndex(res => res._id === resId);
             this.storedResources.splice(resIndex, 1);
-        },
-
-        ...mapActions(['setTabStoredResources','setTabAddResources','setInitResources','setAddResource'])
+        }, */
+        ...mapActions(['setTabStoredResources','setTabAddResources','setInitResources','setAddResource','setRemoveResource'])
     },
     computed: {
         storeResButtonMode()
@@ -102,25 +101,28 @@
 
     },
 watch: {
-    storedResources(newResources,oldResources )
+  /*  storedResources(newResources,oldResources )
     {
-        if(newResources !== oldResources)
+        var flag = true;
+        if(flag && (newResources !== oldResources))
         {
         this.$forceUpdate();
         console.log(this.storedResources);
+        flag = false;
+        
         }
-    } 
+    } */
 },
     mounted()
     {
         this.axios.get('http://localhost:8081/users/').then(response => ( this.setInitResources({value: response.data}) ));
         console.log(this.storedResources);
     },
-    updated()
+  /*  updated()
     {
         this.axios.get('http://localhost:8081/users/').then(response => ( this.setInitResources({value: response.data}) ));
         console.log(this.storedResources);
-    }  
+    } */  
 }
 
 </script>

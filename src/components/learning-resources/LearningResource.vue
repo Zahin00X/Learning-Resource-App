@@ -3,7 +3,7 @@
         <base-card>
             <header>
                 <h3>{{ title }}</h3>
-                <base-button mode="flat" @click="deleteResource(id)">Delete</base-button>
+                <base-button mode="flat" @click="deleteResource({value : id})">Delete</base-button>
             </header>
             <p>{{ description }}</p>
             <nav>
@@ -31,7 +31,7 @@ export default {
             required : true
         },
         id : {
-          type:String,
+          type: Number,
           required : true
         }
     }
