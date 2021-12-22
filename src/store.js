@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createStore } from 'vuex';
-import createPersistedState from "vuex-persistedstate";
+// import createPersistedState from "vuex-persistedstate";
 
 const store = createStore({
 
@@ -12,9 +12,9 @@ const store = createStore({
             storedResources: [],
         }
     },
-    plugins: [createPersistedState({
+  /*  plugins: [createPersistedState({
         paths: ['storedResources']
-    })],
+    })], */
     mutations: {
         setSelectedTab(state,payload)
         {

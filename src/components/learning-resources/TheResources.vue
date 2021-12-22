@@ -4,7 +4,7 @@
         <base-button @click="setTabAddResources" :mode="addResButtonMode">Add Resource</base-button>
     </base-card>
     <keep-alive>
-        <component  :is="selectedTab" :selectedTab="selectedTab"></component>
+        <component :is="selectedTab" :selectedTab="selectedTab" ></component>
     </keep-alive>
 </template>
 
@@ -13,17 +13,18 @@
     import StoredResources from './StoredResources.vue';
     import { mapActions } from 'vuex';
     import { mapGetters } from 'vuex';
+
     
     
     
-    export default{
+export default{
     components: {
         'stored-resources': StoredResources,
         'add-resource': AddResource
     },
     provide(){
         return {
-            resources : this.storedResources,
+           // resources : this.storedResources,
             addResource : this.setAddResource,
             deleteResource : this.setRemoveResource,
             
@@ -101,26 +102,27 @@
 
     },
 watch: {
-  /*  storedResources(newResources,oldResources )
+ /*   storedResources(newResources,oldResources )
     {
-        var flag = true;
-        if(flag && (newResources !== oldResources))
+        
+        if(newResources !== oldResources))
         {
         this.$forceUpdate();
         console.log(this.storedResources);
-        flag = false;
+        
         
         }
-    } */
+    } */ 
 },
-    mounted()
+   /* async beforeCreated()
     {
-        this.axios.get('http://localhost:8081/users/').then(response => ( this.setInitResources({value: response.data}) ));
+        await this.axios.get('http://localhost:8081/users/').then(response => ( this.setInitResources({value: response.data}) ));
+       // await this.$forceUpdate();
         console.log(this.storedResources);
-    },
-  /*  updated()
+    }, */
+  /*  async updated()
     {
-        this.axios.get('http://localhost:8081/users/').then(response => ( this.setInitResources({value: response.data}) ));
+        await this.axios.get('http://localhost:8081/users/').then(response => ( this.setInitResources({value: response.data}) ));
         console.log(this.storedResources);
     } */  
 }

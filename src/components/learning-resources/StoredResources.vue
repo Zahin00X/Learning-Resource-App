@@ -1,7 +1,7 @@
 <template>
   <ul>
     <learning-resource
-      v-for="res in resources"
+      v-for="res in storedResources"
       :id="res._id"
       :key="res._id"
       :title="res.title"
@@ -13,8 +13,8 @@
 
 <script>
 import LearningResource from './LearningResource.vue';
-//import { mapActions } from 'vuex';
-//import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default{
     
@@ -22,18 +22,18 @@ export default{
     'learning-resource': LearningResource,
   },
   methods: {
-  //  ...mapActions(['setInitResources'])
+    ...mapActions(['setInitResources'])
   },
   computed:{
-  //  ...mapGetters(['storedResources'])
+    ...mapGetters(['storedResources'])
   },
-  inject : ['resources'],
- /* mounted()
+  //inject : ['resources'],
+  async beforeCreate()
   {
+    await this.axios.get('http://localhost:8081/users/').then(response => ( this.setInitResources({value: response.data}) ));
+    console.log(this.storedResources);
     
-    this.axios.get('http://localhost:8081/users/').then(response => ( this.setInitResources({value: response.data}) ));
-    
-  } */ 
+  }  
 }
 </script>
 
